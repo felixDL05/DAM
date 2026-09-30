@@ -1,6 +1,4 @@
 
-package com.mycompany.mavenproject1;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -55,12 +53,16 @@ public class Tema1_Actividad1 {
 
         // TODO: EJERCICIO 1
         // Escribe aquí tu solución.
-        File f = new File("C:\\Users\\Usuario\\Desktop\\AaD\\datos.txt");
-        if(!f.exists()) {
-            f.createNewFile();
+        File datos = new File("datos.txt");
+
+        if (!datos.exists()) {
+            datos.createNewFile();
+            System.out.println("Se ha creado el fichero.");
+        } else {
+            System.out.println("El fichero ya existe.");
         }
-        
-        System.out.println("El nombre del fichero es: " + f.getName());
+
+        System.out.println("Nombre del fichero: " + datos.getName());
 
         // ============================================================
         // EJERCICIO 2 - INFORMACIÓN DEL FICHERO
@@ -81,13 +83,17 @@ public class Tema1_Actividad1 {
 
         // TODO: EJERCICIO 2
         // Escribe aquí tu solución.
-        System.out.println("El nombre del fichero es: " + f.getName());
-        System.out.println("La ruta del fichero es: " + f.getPath());
-        System.out.println("La ruta absoluta del fichero es: " + f.getAbsolutePath());
-        System.out.println("El directorio padre del fichero es: " + f.getParent());
-        System.out.println("¿El fichero existe?: " + f.exists());
-        System.out.println("¿El fichero se puede leer?: " + f.canRead());
-        System.out.println("¿El fichero se puede escribir?: " + f.canWrite());
+
+        File datos2 = new File("datos.txt");
+
+        System.out.println("Nombre: " + datos2.getName());
+        System.out.println("Ruta: " + datos2.getPath());
+        System.out.println("Ruta absoluta: " + datos2.getAbsolutePath());
+        System.out.println("Directorio padre: " + datos2.getParent());
+        System.out.println("Existe: " + datos2.exists());
+        System.out.println("Se puede leer: " + datos2.canRead());
+        System.out.println("Se puede escribir: " + datos2.canWrite());
+
         // ============================================================
         // EJERCICIO 3 - CREAR DIRECTORIO Y MOVER UN FICHERO
         // ============================================================
@@ -109,23 +115,28 @@ public class Tema1_Actividad1 {
 
         // TODO: EJERCICIO 3
         // Escribe aquí tu solución.
-        File carpeta = new File("backup");
-        carpeta.mkdir();
 
-        if (carpeta.exists()) {
-            System.out.println("El directorio existe.");
-        } else {
-            System.out.println("El directorio no existe.");
-        }
-        
-        File destino = new File(carpeta, "datos.txt");
+        File backup = new File("backup");
 
-        if (f.renameTo(destino)) {
-            System.out.println("El archivo se ha movido correctamente.");
-        } else {
-            System.out.println("No se ha podido mover el archivo.");
+        if (!backup.exists()) {
+            backup.mkdir();
         }
-        
+
+        System.out.println("El directorio backup existe: " + backup.exists());
+
+        File origen = new File("datos.txt");
+        File destino = new File(backup, "datos.txt");
+
+        if (origen.exists()) {
+            if (origen.renameTo(destino)) {
+                System.out.println("datos.txt se ha movido a backup.");
+            } else {
+                System.out.println("No se ha podido mover el fichero.");
+            }
+        } else {
+            System.out.println("No existe datos.txt para mover.");
+        }
+
         // ============================================================
         // EJERCICIO 4 - ESCRIBIR TEXTO CON FileWriter
         // ============================================================
@@ -148,6 +159,7 @@ public class Tema1_Actividad1 {
 
         // TODO: EJERCICIO 4
         // Escribe aquí tu solución.
+
         FileWriter escritor = new FileWriter("alumnos.txt");
 
         escritor.write("Juan\n");
@@ -156,6 +168,8 @@ public class Tema1_Actividad1 {
         escritor.write("Ana\n");
 
         escritor.close();
+
+        System.out.println("Se ha escrito alumnos.txt correctamente.");
 
 
         // ============================================================
@@ -170,7 +184,7 @@ public class Tema1_Actividad1 {
          * Utiliza FileReader para:
          *
          * 1. Abrir el fichero.
-         * 2. Leer el primer carácter mediante read().pero
+         * 2. Leer el primer carácter mediante read().
          * 3. Mostrarlo por pantalla.
          * 4. Cerrar el lector.
          *
@@ -180,13 +194,20 @@ public class Tema1_Actividad1 {
 
         // TODO: EJERCICIO 5
         // Escribe aquí tu solución.
+
+        // Creamos previamente el fichero
+        FileWriter mensajeEscritor = new FileWriter("mensaje.txt");
+        mensajeEscritor.write("Hola");
+        mensajeEscritor.close();
+
         FileReader lector = new FileReader("mensaje.txt");
 
         int caracter = lector.read();
 
-        System.out.println((char) caracter);
+        System.out.println("Primer carácter: " + (char) caracter);
 
         lector.close();
+
 
         // ============================================================
         // EJERCICIO 6 - ¿ACCESO SECUENCIAL O ALEATORIO?
@@ -224,12 +245,18 @@ public class Tema1_Actividad1 {
 
         // TODO: EJERCICIO 6
         // Escribe tus respuestas aquí mediante comentarios.
-        //
-        // A)El secuencial porque desde el primero va en orden uno por uno hasta el último ya que queremos mostrar los 500.
-        // B)El aleatorio/directo ya que este nos permite ir directamente al dato concreto.
-        // C)El secuencial ya que queremos recorrer todo el contenido.
-        // D)El aleatorio/directo porque queremos coger solo la información de una posición concreta.
-        // E)El secuencial porque al querer leer el texto completo lo lee desde el primero hasta el final.
+
+        /*
+         * A) Secuencial porque nos piden recorrer todos desde el primero al último.
+         *
+         * B) Aleatorio / Directo porque queremos acceder directamente a una posición concreta.
+         *
+         * C) Secuencial porque nos dice todo el contenido del fichero.
+         *
+         * D) Aleatorio / Directo porque queremos modificar una posición concreta del fichero.
+         *
+         * E) Secuencial porque queremos leer todo el fichero.
+         */
 
 
         // ============================================================
@@ -250,13 +277,20 @@ public class Tema1_Actividad1 {
 
         // TODO: EJERCICIO 7
         // Escribe aquí tu solución.
-        FileInputStream b = new FileInputStream("bytes.txt");
-        
-        int dato = b.read();
-        
-        System.out.println("El byte leído es: " + dato);
-        
-        b.close();
+
+        // Creamos el fichero
+        FileOutputStream crearBytes = new FileOutputStream("bytes.txt");
+        crearBytes.write("Hola mundo".getBytes());
+        crearBytes.close();
+
+        FileInputStream entrada = new FileInputStream("bytes.txt");
+
+        int byteLeido = entrada.read();
+
+        System.out.println("Valor del primer byte: " + byteLeido);
+
+        entrada.close();
+
 
         // ============================================================
         // EJERCICIO 8 - ESCRITURA DE BYTES
@@ -276,13 +310,15 @@ public class Tema1_Actividad1 {
 
         // TODO: EJERCICIO 8
         // Escribe aquí tu solución.
-        FileOutputStream s = new FileOutputStream("salidaBytes.txt");
-        
-        s.write(68);
-        
-        s.close();
-        
-        System.out.println("El 68 se escribió en salidaBytes.txt");
+
+        FileOutputStream salida = new FileOutputStream("salidaBytes.txt");
+
+        salida.write(68);
+
+        salida.close();
+
+        System.out.println("Se ha escrito el valor 68 en salidaBytes.txt.");
+
 
         // ============================================================
         // EJERCICIO 9 - RandomAccessFile
@@ -309,15 +345,25 @@ public class Tema1_Actividad1 {
 
         // TODO: EJERCICIO 9
         // Escribe aquí tu solución.
-        FileWriter fichero2 = new FileWriter("letras.txt");
-        fichero2.write("ABCDEFGHIJ");
-        fichero2.close();
-        RandomAccessFile fi = new RandomAccessFile("letras.txt", "rw");
-        fi.seek(5);
-        int letra = fi.read();
-        System.out.println("El carácter en la posición 5 es: "+ (char)letra + "y la posición actual del puntero es: " + fi.getFilePointer());
+
+        // Creamos el fichero letras.txt
+        FileWriter letrasEscritor = new FileWriter("letras.txt");
+        letrasEscritor.write("ABCDEFGHIJ");
+        letrasEscritor.close();
+
+        RandomAccessFile letras = new RandomAccessFile("letras.txt", "rw");
+
+        letras.seek(5);
+
+        int letra = letras.read();
+
+        System.out.println("Carácter: " + (char) letra);
+        System.out.println("Posición actual: " + letras.getFilePointer());
+
+        letras.close();
         
         
+
 
         // ============================================================
         // EJERCICIO 10 - ESCRIBIR CON RandomAccessFile
@@ -338,8 +384,20 @@ public class Tema1_Actividad1 {
 
         // TODO: EJERCICIO 10
         // Escribe aquí tu solución.
+
+        RandomAccessFile letras2 = new RandomAccessFile("letras.txt", "rw");
+
+        letras2.seek(5);
+
+        letras2.write('D');
+
+        letras2.close();
+
+        System.out.println("Se ha escrito la letra D en la posición 5.");
         
         
+        
+
         // ============================================================
         // EJERCICIO 11 - LEER VARIOS BYTES
         // ============================================================
@@ -358,6 +416,16 @@ public class Tema1_Actividad1 {
 
         // TODO: EJERCICIO 11
         // Escribe aquí tu solución.
+
+        RandomAccessFile variosBytes = new RandomAccessFile("bytes.txt", "r");
+
+        byte[] array = new byte[10];
+
+        int cantidadLeida = variosBytes.read(array, 0, 10);
+
+        System.out.println("Bytes leídos: " + cantidadLeida);
+
+        variosBytes.close();
 
         // ============================================================
         // EJERCICIO 12 - Ejercicio FINAL: GESTOR DE FICHEROS
@@ -411,6 +479,63 @@ public class Tema1_Actividad1 {
 
         // TODO: Ejercicio FINAL
         // Escribe aquí tu solución completa.
+
+        File alumnos = new File("alumnos.txt");
+
+        // 1. Crear el fichero si no existe
+        if (!alumnos.exists()) {
+            alumnos.createNewFile();
+        }
+
+        // 2. Mostrar información
+        System.out.println("Nombre: " + alumnos.getName());
+        System.out.println("Ruta: " + alumnos.getPath());
+        System.out.println("Ruta absoluta: " + alumnos.getAbsolutePath());
+        System.out.println("Existe: " + alumnos.exists());
+        System.out.println("Se puede leer: " + alumnos.canRead());
+        System.out.println("Se puede escribir: " + alumnos.canWrite());
+
+        // 3. Escribir alumnos
+        FileWriter alumnosWriter = new FileWriter(alumnos);
+
+        alumnosWriter.write("Juan\n");
+        alumnosWriter.write("Ana\n");
+        alumnosWriter.write("Pedro\n");
+        alumnosWriter.write("Laura\n");
+
+        alumnosWriter.close();
+
+        System.out.println("Se ha escrito el contenido de alumnos.txt.");
+
+        // 4. Leer el primer carácter
+        FileReader alumnosReader = new FileReader(alumnos);
+
+        int primerCaracter = alumnosReader.read();
+
+        System.out.println("Primer carácter: " + (char) primerCaracter);
+
+        alumnosReader.close();
+        
+        // 5. Crear directorio backup
+        File backupFinal = new File("backup");
+
+        if (!backupFinal.exists()) {
+            backupFinal.mkdir();
+        }
+
+        // 6. Mover alumnos.txt a backup
+        File alumnosDestino = new File(backupFinal, "alumnos.txt");
+
+        if (alumnos.renameTo(alumnosDestino)) {
+            System.out.println("alumnos.txt se ha movido a backup.");
+        } else {
+            System.out.println("No se ha podido mover alumnos.txt.");
+        }
+
+        // 7. Mostrar fecha de última modificación
+        System.out.println(
+                "Última modificación: " + alumnosDestino.lastModified()
+        );
 
 
     }

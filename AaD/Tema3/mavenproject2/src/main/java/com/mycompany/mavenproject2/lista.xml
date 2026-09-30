@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tienda>
+    <producto>
+        <nombre>Teclado</nombre>
+        <precio>22</precio>
+        <stock>5</stock>
+    </producto>
+    
+    <producto>
+        <nombre>Ratón</nombre>
+        <precio>6</precio>
+        <stock>21</stock>
+    </producto>
+    
+    <producto>
+        <nombre>Monitor</nombre>
+        <precio>15</precio>
+        <stock>10</stock>
+    </producto>
+</tienda>
