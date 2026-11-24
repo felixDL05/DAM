@@ -7,82 +7,70 @@ package com.mycompany.roundrobin;
 import java.util.LinkedList;
 import java.util.Queue;
 
-/**
- *
- * @author Usuario
- */
-
-class Proceso {
-    String nombre;
-    int tiempoCreacion;
-    int tiempoCPU;
-    int tiempoRestante;
-    int tiempoFinalizacion;
-    
-    public Proceso(String nombre, int tiempoCreacion, int tiempoCPU, int tiempoRestante, int tiempoFinalizacion;) {
-        this.nombre = nombre;
-        this.tiempoCreacion = tiempoCreacion;
-        this.tiempoCPU = tiempoCPU;
-        this.tiempoRestante = tiempoCPU;
-        this.tiempoFinalizacion = tiempoFinalizacion;
-    } 
-}
-
 public class RoundRobin {
 
+    static class Proceso {
+        String nombre;
+        int tiempoTotal;
+        int tiempoRestante;
+        int tiempoFin;
+
+        Proceso(String nombre, int tiempoTotal) {
+            this.nombre = nombre;
+            this.tiempoTotal = tiempoTotal;
+            this.tiempoRestante = tiempoTotal;
+        }
+    }
+
     public static void main(String[] args) {
-        
         int quantum = 2;
-        Proceso A = new Proceso("A", 2, 2);
-        Proceso B = new Proceso("B", 0, 8);
-        Proceso C = new Proceso("C", 3, 6);
-        Proceso D = new Proceso("D", 4, 4);
-        
-        //Lista de procesos
-        Proceso[] procesos = {A, B, C, D};
-        
-        Queue<Proceso> cola = new LinkedList();
-        
+
+        Proceso[] procesos = {
+            new Proceso("P1", 5),
+            new Proceso("P2", 3),
+            new Proceso("P3", 6),
+            new Proceso("P4", 1)
+        };
+
+        Queue<Proceso> cola = new LinkedList<>();
+        for (Proceso p : procesos) {
+            cola.add(p);
+        }
+
         int tiempoActual = 0;
-        int procesosTerminados = 0;
-        
-        System.out.println("EMPIEZA ROUND ROBIN");
-        System.out.println();
-        
-        while (procesosTerminados < procesos.length) {
-            //Añadir a la cola los procesos que han sido creados
-            for (Proceso p : procesos) {
-                if (p.tiempoCreacion <= tiempoActual && p.tiempoRestante > 0 && !cola.contains(p)) {
-                    cola.add(p);
-                }
-            }
-            //Si no hay procesoso avanzamos en el tiempo
-            if (cola.isEmpty()) {
-                tiempoActual++;
-                continue;
-            }
-            //Sacamos el primer proceso de la cola
+
+        StringBuilder orden = new StringBuilder();
+
+        System.out.println("=== SIMULACIÓN ROUND ROBIN (quantum = " + quantum + ") ===\n");
+        System.out.println("Intervalo      Proceso   Restante");
+        System.out.println("-----------------------------------");
+
+        while (!cola.isEmpty()) {
             Proceso proceso = cola.poll();
-            //Calcular el tiempo de ejecución, maz el quantum y minimo 1
-            int tiempoEjecutado = Math.min((proceso.tiempoRestante), quantum);
+
+            int tiempoEjecutado = Math.min(quantum, proceso.tiempoRestante);
             int inicio = tiempoActual;
-            
-            //Ejecución
+
             proceso.tiempoRestante -= tiempoEjecutado;
             tiempoActual += tiempoEjecutado;
-            
-            //Mostrar intervalo
-            System.out.println("t = " + inicio + " => " + "t = " + tiempoActual + proceso.nombre);
-            
-            //Comprobar si ha terminado
-            if (proceso.tiempoRestante==0) {
-                proceso.tiempoFinalizacion = tiempoActual;
-                procesoTerminados++;
-                System.out.println("");
+
+            System.out.printf("[%2d - %2d]      %-8s  %d%n",
+                    inicio, tiempoActual, proceso.nombre, proceso.tiempoRestante);
+
+            orden.append(proceso.nombre).append(" ");
+
+            if (proceso.tiempoRestante == 0) {
+                proceso.tiempoFin = tiempoActual;
             } else {
                 cola.add(proceso);
             }
-            System.out.println("HA TERMINADO");
+        }
+
+        System.out.println("\nOrden de ejecución: " + orden.toString().trim());
+
+        System.out.println("\nTiempo de finalización de cada proceso:");
+        for (Proceso p : procesos) {
+            System.out.println(p.nombre + " termina en t = " + p.tiempoFin);
         }
     }
 }
