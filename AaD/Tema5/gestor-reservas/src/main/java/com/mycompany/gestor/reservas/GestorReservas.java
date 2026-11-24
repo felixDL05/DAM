@@ -236,7 +236,7 @@ public class GestorReservas {
     private static void buscarPorAlumnoParcial(Scanner sc) {
         String nombre = leerTexto(sc, "Nombre o parte del nombre: ", 100);
         String sql = "SELECT id, alumno, aula, fecha FROM reserva WHERE alumno LIKE ? ORDER BY fecha ASC";
-        String patron = "%" + nombre + "%";   // el texto del usuario va como parámetro, no en el SQL
+        String patron = "%" + nombre + "%";
 
         try (Connection conexion = Conexion.conectar();
              PreparedStatement ps = conexion.prepareStatement(sql)) {
@@ -275,7 +275,7 @@ public class GestorReservas {
     private static void buscarEntreFechas(Scanner sc) {
         LocalDate desde = leerFecha(sc, "Desde (AAAA-MM-DD): ");
         LocalDate hasta = leerFecha(sc, "Hasta (AAAA-MM-DD): ");
-        if (hasta.isBefore(desde)) {          // si las ponen al revés, se intercambian
+        if (hasta.isBefore(desde)) {
             LocalDate aux = desde;
             desde = hasta;
             hasta = aux;

@@ -24,9 +24,9 @@ public class Conexion {
             throw new SQLException("No se pudo leer el archivo .env: " + e.getMessage());
         }
 
-        String url = env.getProperty("DB_URL", "jdbc:postgresql://localhost:5432/reservas");
-        String user = env.getProperty("DB_USER", "alumno");
-        String pass = env.getProperty("DB_PASSWORD");
+        String url = env.getProperty("POSTGRES_URL", "jdbc:postgresql://localhost:5432/reservas");
+        String user = env.getProperty("POSTGRES_USER", "alumno");
+        String pass = env.getProperty("POSTGRES_PASSWORD");
 
         if (pass == null || pass.isBlank()) {
             throw new SQLException("Falta DB_PASSWORD en el archivo .env.");
