@@ -1,7 +1,7 @@
 services:
-  db:
+  postgres:
     image: postgres:16
-    container_name: db_postgres
+    container_name: db_postgres_5
     restart: unless-stopped
     environment:
       POSTGRES_DB: reservas
